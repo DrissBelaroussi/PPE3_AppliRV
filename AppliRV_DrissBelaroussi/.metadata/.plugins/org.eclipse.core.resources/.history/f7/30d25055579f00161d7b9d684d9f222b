@@ -1,0 +1,25 @@
+package fr.gsb.app;
+
+import fr.gsb.app.modeles.ModeleAppliRV;
+import fr.gsb.app.vues.VueAppliRV;
+import fr.gsb.app.vues.VueMoisAnnee;
+import fr.gsb.app.vues.VueRapportVisiteur;
+
+public class AppliRV {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		//new VueAppliRV();
+		
+		//new VueRapportVisiteur() ;
+		
+		//ModeleAppliRV.getModele().getLeRapportVisite("a17", "4") ;
+		
+		//boolean ok = ModeleAppliRV.getModele().consulterRapport("a17", "4") ;
+		//System.out.println(ok) ;
+		
+		System.out.println(ModeleAppliRV.getModele().getPraticienDate("2000-01-01"));
+	}
+
+}

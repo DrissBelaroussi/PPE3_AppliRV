@@ -1,0 +1,127 @@
+package fr.gsb.app.vues;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+
+import fr.gsb.app.controleurs.ControleurPraticien;
+import fr.gsb.app.controleurs.ControleurRapportVisiteur;
+import fr.gsb.app.entites.Praticien;
+
+public class VuePraticien extends JDialog {
+	
+	private VueListePraticiens vueParente ;
+	JButton bValider = new JButton("Valider") ;
+	JButton bAnnuler = new JButton("Annuler") ;
+	private ControleurPraticien controleur;
+	 
+	private Praticien praticien ;
+	
+	
+	public VuePraticien(){
+		super() ;
+	}
+	
+	public VuePraticien(Praticien praticien) {
+		super();
+		
+		
+		this.praticien = praticien ; 
+		
+		this.setTitle("Rapport") ;
+		
+		// Définit le largeur et la hauteur de la fenêtre
+		this.setSize(300,400) ;
+		
+		// Positionne la fenêtre au centre de l'écran
+		this.setLocationRelativeTo(null) ;
+		
+		// Empêche l'utilisateur de fermer la fenêtre à l'aide de la croix
+		// qui se trouve en haut à droite
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		// Empêche le redimensionnement par l'utilisateur
+		this.setResizable(false);
+		
+		
+		this.controleur = new ControleurPraticien(this ) ;
+		
+		this.getContentPane().setBackground(Color.decode("#FFFFF0")) ;
+		
+		this.setVisible(true) ;
+		
+		this.creerInterface() ;
+		
+	}
+	
+	
+
+	public void creerInterface(){
+//		
+//		Box bPrincipale = Box.createVerticalBox() ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;
+//		bPrincipale.add(new JLabel ("Numero du rapport ")) ;
+//		bPrincipale.add(new JLabel (rap_num)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ; 
+//		bPrincipale.add(new JLabel ("Matricule")) ;
+//		bPrincipale.add(new JLabel (matricule)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//		bPrincipale.add(new JLabel ("Date")) ;
+//		bPrincipale.add(new JLabel (date)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;
+//		bPrincipale.add(new JLabel ("Motif")) ;
+//		bPrincipale.add(new JLabel (motif)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//		bPrincipale.add(new JLabel ("Bilan")) ;
+//		bPrincipale.add(new JLabel (bilan)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//		bPrincipale.add(new JLabel ("Numéro du praticien")) ;
+//		bPrincipale.add(new JLabel (pra_num)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//		bPrincipale.add(new JLabel ("Coefficient de confiance")) ;
+//		bPrincipale.add(new JLabel (coef)) ;
+//		bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//		bPrincipale.add(Box.createHorizontalStrut(10)) ;
+//		bPrincipale.add(bValider) ;
+//		
+//		this.add(bPrincipale) ;
+//		
+		
+		
+		
+	
+		Container panneau = this.getContentPane() ;
+		panneau.setLayout(new GridLayout(8,2,20,20));
+		Border border = BorderFactory.createTitledBorder("PROFIL PRATICIEN");
+		((JComponent) panneau).setBorder(border);
+		
+		
+		
+		
+		//bValider.setPreferredSize(new Dimension(20, 20));
+		panneau.add(bValider) ;
+		
+		
+		//this.pack() ;
+
+				
+	
+		
+						
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}

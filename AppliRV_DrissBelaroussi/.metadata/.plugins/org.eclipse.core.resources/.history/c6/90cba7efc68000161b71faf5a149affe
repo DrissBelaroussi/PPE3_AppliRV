@@ -1,0 +1,192 @@
+package fr.gsb.app.modeles;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import fr.gsb.app.techniques.ConnexionBD;
+
+public class ModeleAppliRV {
+	
+	private static ModeleAppliRV modele = null ;
+	
+	private ModeleAppliRV() {
+		super(); 
+	}
+
+	public static ModeleAppliRV getModele() {
+		if (modele == null) {
+			modele = new ModeleAppliRV() ;
+		}
+		return modele;
+	}
+
+	public boolean seConnecter(String login, String mdp) throws Exception {
+		// Récupère une connexion à la base de données
+		Connection connexion = ConnexionBD.getConnexion() ;
+	
+		// Chaîne représentant la requête
+		String requete = "select *" 
+				+ " from VISITEUR"
+				+ " where VIS_MATRICULE = ?"
+				+ " and MDP = ?" ;
+		
+		// Prépare la requête
+		PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement(requete) ;
+		
+		// Remplace, dans la requête, le premier ? par le pseudo reçu en argument
+		requetePreparee.setString(1, login);
+		
+		// Remplace, dans la requête, le second ? par le mot de passe reçu en argument
+		requetePreparee.setString(2, mdp);
+		
+		// Exécute la requête
+		// Requête de consultation (SELECT) donc... executeQuery()
+		// Puis, récupère le résultat (0 ou 1 tuple de la table Joueur)
+		ResultSet resultat = requetePreparee.executeQuery() ;
+		
+		boolean connexionOk ;
+		
+		// Lit la première ligne du résultat
+		// et teste si on obtient qqchose
+		if(resultat.next()){
+			// S'il y a qqchose à lire, c'est que la requête a retourné
+			// un tuple qui correspond au joueur
+			
+			// Modifie la base de données pour indiquer que le
+			// joueur est maintenant connecté
+			connexionOk = this.connecter(pseudo) ;
+		}
+		else {
+			// S'il n'y a rien à lire, c'est que la requête n'a rien retourné...
+			// donc pas de joueur avec ce pseudo et ce login
+			connexionOk = false ;
+		}
+		
+		// Libère la ressource associée à la requête préparée
+		requetePreparee.close();
+		
+		return connexionOk ;	
+	}
+	
+	public boolean estConnecte(String pseudo) throws Exception {
+		// Récupère une connexion à la base de données
+		Connection connexion = ConnexionBD.getConnexion() ;
+	
+		// Chaîne représentant la requête
+		String requete = "select connecte"
+				+ " from Joueur"
+				+ " where pseudo = ?" ;
+		
+		// Prépare la requête
+		PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement(requete) ;
+		
+		// Remplace, dans la requête, le premier ? par le pseudo reçu en argument
+		requetePreparee.setString(1, pseudo);
+		
+		// Exécute la requête
+		// Requête de consultation (SELECT) donc... executeQuery()
+		// Puis, récupère le résultat (O ou 1 tuple de la table Joueur)
+		ResultSet resultat = requetePreparee.executeQuery() ;
+		
+		boolean etatConnecte ;
+		
+		// Lit la première ligne du résultat
+		// et teste si on obtient qqchose
+		if(resultat.next()){
+			// S'il y a qqchose à lire, c'est que la requête a retourné
+			// un tuple qui correspond au joueur
+						
+			// Récupère la valeur de la colonne "connecte"
+			// du tuple joueur retourné par la requête
+			etatConnecte = resultat.getBoolean("connecte") ;
+		}
+		else {
+			// S'il n'y a rien à lire, c'est que la requête n'a rien retourné...
+			// donc pas de joueur avec ce pseudo
+			etatConnecte = false ;
+		}
+		
+		// Libère la ressource associée à la requête préparée
+		requetePreparee.close() ;
+		
+		return etatConnecte ;
+	}
+	
+	public boolean connecter(String pseudo) throws Exception {
+		// Récupère une connexion à la base de données
+		Connection connexion = ConnexionBD.getConnexion() ;
+	
+		// Chaîne représentant la requête
+		String requete = "update Joueur"
+				+ " set connecte = true"
+				+ " where pseudo = ?" ;
+		
+		// Prépare la requête
+		PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement(requete) ;
+		
+		// Remplace, dans la requête, le premier ? par le pseudo reçu en argument
+		requetePreparee.setString(1, pseudo);
+		
+		// Exécute la requête
+		// Requête de modification (INSERT, UPDATE, DELETE) donc... executeUpdate()
+		// Puis, récupère le résultat (nombre de tuples de la table Joueur impactés
+		// par la requête... pour nous, 0 ou 1 joueur modifié)
+		int nb = requetePreparee.executeUpdate() ;
+		
+		boolean connexionOk ;
+		
+		// Teste si un tuple a été modifié
+		if( nb == 1){
+			connexionOk = true ;
+		}
+		else {
+			connexionOk = false ;
+		}
+		
+		// Libère la ressource associée à la requête préparée
+		requetePreparee.close() ;
+		
+		return connexionOk ;
+	}
+	
+	public boolean deconnecter(String pseudo) throws Exception {
+		Connection connexion = ConnexionBD.getConnexion() ;
+		
+		// Chaîne représentant la requête
+		String requete = "update Joueur"
+				+ " set connecte = false"
+				+ " where pseudo = ?" ;
+		
+		// Prépare la requête
+		PreparedStatement requetePreparee = (PreparedStatement) connexion.prepareStatement(requete) ;
+		
+		// Remplace, dans la requête, le premier ? par le pseudo reçu en argument
+		requetePreparee.setString(1, pseudo);
+		
+		// Exécute la requête
+		// Requête de modification (INSERT, UPDATE, DELETE) donc... executeUpdate()
+		// Puis, récupère le résultat (nombre de tuples de la table Joueur impactés
+		// par la requête... pour nous, 0 ou 1 joueur modifié)
+		int nb = requetePreparee.executeUpdate() ;
+		
+		boolean connexionOk ;
+		
+		// Teste si un tuple a été modifié
+		if( nb == 1){
+			connexionOk = true ;
+		}
+		else {
+			connexionOk = false ;
+		}
+		
+		// Libère la ressource associée à la requête préparée
+		requetePreparee.close() ;
+		
+		return connexionOk ;
+	}
+	
+	
+	
+	
+}

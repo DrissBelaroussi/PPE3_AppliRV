@@ -1,0 +1,259 @@
+
+package fr.gsb.app.vues;
+
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.border.Border;
+
+import fr.gsb.app.controleurs.ControleurListePraticiens;
+import fr.gsb.app.controleurs.ControleurListeRapportVisiteur;
+import fr.gsb.app.controleurs.ControleurRapportVisiteur;
+import fr.gsb.app.entites.Praticien;
+import fr.gsb.app.modeles.ModeleListeRapports;
+
+	public class VueRapportVisiteur extends JDialog {
+		
+		private VueListeRapportVisiteur vueParente ;
+		JButton bValider = new JButton("Valider") ;
+		JButton bAnnuler = new JButton("Annuler") ;
+		private ControleurRapportVisiteur controleur;
+		private String rap_num ;
+		private String matricule;
+		private String date;
+		private String motif ;
+		private String bilan ;
+		private String coef ;
+		private String pra_num ;
+		private String date_redac ; 
+		private Praticien praticien ;
+		
+		
+		public VueRapportVisiteur(){
+			super() ;
+		}
+		
+		public VueRapportVisiteur(VueListeRapportVisiteur vueParente,
+				String rap_num, String matricule, String date, String motif,
+				String bilan, String coef , String pra_num , String date_redac, Praticien praticien) {
+			super();
+			this.vueParente = vueParente;
+			this.rap_num = rap_num;
+			this.matricule = matricule;
+			this.date = date;
+			this.motif = motif;
+			this.bilan = bilan;
+			this.coef = coef ;
+			this.pra_num = pra_num ;
+			this.date_redac = date_redac ;
+			this.praticien = praticien ; 
+			
+			this.setTitle("Rapport") ;
+			
+			// Définit le largeur et la hauteur de la fenêtre
+			this.setSize(800,400) ;
+			
+			// Positionne la fenêtre au centre de l'écran
+			this.setLocationRelativeTo(null) ;
+			
+			// Empêche l'utilisateur de fermer la fenêtre à l'aide de la croix
+			// qui se trouve en haut à droite
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			
+			// Empêche le redimensionnement par l'utilisateur
+			this.setResizable(false);
+			
+			
+			this.controleur = new ControleurRapportVisiteur(this ) ;
+			
+			this.setVisible(true) ;
+			
+			this.creerInterface() ;
+			
+		}
+		
+		
+
+		public void creerInterface(){
+//			
+//			Box bPrincipale = Box.createVerticalBox() ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;
+//			bPrincipale.add(new JLabel ("Numero du rapport ")) ;
+//			bPrincipale.add(new JLabel (rap_num)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ; 
+//			bPrincipale.add(new JLabel ("Matricule")) ;
+//			bPrincipale.add(new JLabel (matricule)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//			bPrincipale.add(new JLabel ("Date")) ;
+//			bPrincipale.add(new JLabel (date)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;
+//			bPrincipale.add(new JLabel ("Motif")) ;
+//			bPrincipale.add(new JLabel (motif)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//			bPrincipale.add(new JLabel ("Bilan")) ;
+//			bPrincipale.add(new JLabel (bilan)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//			bPrincipale.add(new JLabel ("Numéro du praticien")) ;
+//			bPrincipale.add(new JLabel (pra_num)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//			bPrincipale.add(new JLabel ("Coefficient de confiance")) ;
+//			bPrincipale.add(new JLabel (coef)) ;
+//			bPrincipale.add(Box.createVerticalStrut(10)) ;	
+//			bPrincipale.add(Box.createHorizontalStrut(10)) ;
+//			bPrincipale.add(bValider) ;
+//			
+//			this.add(bPrincipale) ;
+//			
+			
+			
+			
+		
+			Container panneau = this.getContentPane() ;
+			panneau.setLayout(new GridLayout(8,2,20,20));
+			Border border = BorderFactory.createTitledBorder("RAPPORT VISITE");
+			((JComponent) panneau).setBorder(border);
+			
+			
+			panneau.add(new JLabel ("Numero du rapport ")) ;
+			panneau.add(new JLabel (rap_num)) ;
+		
+			panneau.add(new JLabel ("Matricule")) ;
+			panneau.add(new JLabel (matricule)) ;
+		
+			panneau.add(new JLabel ("Date")) ;
+			panneau.add(new JLabel (date)) ;
+			
+			panneau.add(new JLabel ("Motif")) ;
+			panneau.add(new JLabel (motif)) ;
+		
+			panneau.add(new JLabel ("Bilan")) ;
+			panneau.add(new JLabel (bilan)) ;
+			
+			panneau.add(new JLabel ("Numéro du praticien")) ;
+			panneau.add(new JLabel (pra_num)) ;
+		
+			panneau.add(new JLabel ("Coefficient de confiance")) ;
+			panneau.add(new JLabel (coef)) ;
+			
+			bValider.setSize(10,10);
+			panneau.add(bValider) ;
+			
+			this.pack();
+
+
+					
+		
+			
+							
+		}
+		
+		
+		
+		public VueListeRapportVisiteur getVueParente() {
+			return vueParente;
+		}
+		public void setVueParente(VueListeRapportVisiteur vueParente) {
+			this.vueParente = vueParente;
+		}
+		public JButton getbValider() {
+			return bValider;
+		}
+		public void setbValider(JButton bValider) {
+			this.bValider = bValider;
+		}
+		public JButton getbAnnuler() {
+			return bAnnuler;
+		}
+		public void setbAnnuler(JButton bAnnuler) {
+			this.bAnnuler = bAnnuler;
+		}
+		public ControleurRapportVisiteur getControleur() {
+			return controleur;
+		}
+		public void setControleur(ControleurRapportVisiteur controleur) {
+			this.controleur = controleur;
+		}
+		public String getRap_num() {
+			return rap_num;
+		}
+		public void setRap_num(String rap_num) {
+			this.rap_num = rap_num;
+		}
+		public String getMatricule() {
+			return matricule;
+		}
+		public void setMatricule(String matricule) {
+			this.matricule = matricule;
+		}
+		public String getDate() {
+			return date;
+		}
+		public void setDate(String date) {
+			this.date = date;
+		}
+		public String getMotif() {
+			return motif;
+		}
+		public void setMotif(String motif) {
+			this.motif = motif;
+		}
+		public String getBilan() {
+			return bilan;
+		}
+		public void setBilan(String bilan) {
+			this.bilan = bilan;
+		}
+
+		public String getCoef() {
+			return coef;
+		}
+
+		public void setCoef(String coef) {
+			this.coef = coef;
+		}
+
+		public String getPra_num() {
+			return pra_num;
+		}
+
+		public void setPra_num(String pra_num) {
+			this.pra_num = pra_num;
+		}
+
+		public String getDate_redac() {
+			return date_redac;
+		}
+
+		public void setDate_redac(String date_redac) {
+			this.date_redac = date_redac;
+		}
+
+		public Praticien getPraticien() {
+			return praticien;
+		}
+
+		public void setPraticien(Praticien praticien) {
+			this.praticien = praticien;
+		} 
+		
+		
+		
+		
+		
+	}
